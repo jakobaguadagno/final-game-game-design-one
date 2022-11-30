@@ -13,4 +13,5 @@ public class itemScriptCreator : ScriptableObject
     public Sprite itemIcon = null;
 
     public int amountOfItem = 1;
+    public int sellValue = 10;
 }
