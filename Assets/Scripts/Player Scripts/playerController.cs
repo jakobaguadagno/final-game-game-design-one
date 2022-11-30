@@ -1,42 +1,29 @@
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class playerController : MonoBehaviour
 {
     private PlayerInput MyInput;
     private CharacterController controller;
     private LineRenderer aimLine;
-    public GameObject bullet;
-    private GameObject tempB;
     private Vector3 playerVelocity, playerPos;
     private bool groundedPlayer;
-    private bool fired = false;
     private bool isDragging = false;
     private Vector2 dir, cDir, sDir, mLinePos, pLinePos, mousePos2D;
-    private Ray rayLine, shotLine;
+    private Ray rayLine;
     private float gravityValue = -9.81f;
-    private Vector3 move, facingDirection, mousePos3D, clickPosStart, clickPosEnd, forwardCamera, rightCamera, fmov, rmov, mousePosPoint, camRelMov, shotDirection;
-    private Rigidbody tempR;
-    private Quaternion shotQ ,shotGunQ2,shotGunQ3,shotGunQ4,shotGunQ5;
-    private GameObject tempSGB;
-    private GameObject tempSGB2;
-    private GameObject tempSGB3;
-    private GameObject tempSGB4;
-    private GameObject tempSGB5;
-    private Rigidbody tempRSG,tempRSG2,tempRSG3,tempRSG4,tempRSG5;
-    playerInventory inv;
-    public GameObject playerGO, playerCenter;
-    public float shootCooldown = 0;
-    private int playerWeapon;
-    public Animator ani;
-    public audioScript sounds;
-    public GameObject inventoryUI;
-    public Slider s;
+    private Vector3 move, mousePos3D, clickPosStart, clickPosEnd, forwardCamera, rightCamera, fmov, rmov, camRelMov;
 
     [Header("Player Input Settings")]
     [SerializeField] private float playerSpeed = 10.0f;
     [SerializeField] private float smoothSpeed = 0.2f;
+   // [SerializeField] private int pHealth = 10;
+   // [SerializeField] private int pScore = 0;
     
     [Header("Camera Controller Settings")]
     public Camera cameraPlayer;
@@ -45,80 +32,41 @@ public class playerController : MonoBehaviour
     private Vector2 cameraYV2temp, cameraYRef, cameraYV2;
     [SerializeField] private float zSpeed = 0.001f;
     [SerializeField] private float maxZ = 5f;
-    [SerializeField] private float minZ = 2f;
+    [SerializeField] private float minZ = 1f;
     [SerializeField] private float cameraZ = 10f;
     [SerializeField] private float cameraY = 0f;
     private float scroll, mouseMovementX;
 
-    public MeshRenderer pistol, shotgun, assualt;
+    //[SerializeField] private float lineMaxDistance = 5;
+    //private float lineDistance;
 
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.visible = false;
     }
 
     void Start()
     {
-        inventoryUI = GameObject.Find("Game Manager/Canvas/InventoryUI");
-        sounds = GameObject.Find("Game Manager/Sound Manager").GetComponent<audioScript>();
         aimLine = GetComponent<LineRenderer>();
         aimLine.positionCount = 2;
         MyInput = GetComponent<PlayerInput>();
         controller = GetComponent<CharacterController>();
         playerPos = gameObject.transform.position;
-        switch (playerInventory.playerWeapon)
-        {
-            case 1:
-                pistol.enabled = true;
-                shotgun.enabled = false;
-                assualt.enabled = false;
-                break;
-            case 2:
-                pistol.enabled = false;
-                shotgun.enabled = true;
-                assualt.enabled = false;
-                break;
-            case 3:
-                pistol.enabled = false;
-                shotgun.enabled = false;
-                assualt.enabled = true;
-                break;
-        }
     }
 
     void Update()
     {
-        if(!playerInventory.dead)
-        {
-            sHealth(playerInventory.playerHealth);
-        }
+        //Debug.Log(EditorWindow.mouseOverWindow);
         playerMovement();
         playerPos = gameObject.transform.position;
         cameraPosFunc();
         aimLineFunc();
-        if (shootCooldown > 0)
-        {
-            shootCooldown -= Time.deltaTime;
-        }
-        if(fired==true && shootCooldown <= 0)
-        {
-            Shoot();
-            if(playerInventory.playerWeapon != 1 && playerInventory.playerWeapon != 2)
-            {
-                shootCooldown += .1f;
-            }
-            else
-            {
-                shootCooldown += 1f;
-            }
-            
-        }
     }
 
     void FixedUpdate()
     {
         dragCameraFunc();
-        
     }
     
     void OnTriggerEnter(Collider collision)
@@ -155,46 +103,33 @@ public class playerController : MonoBehaviour
 
     public void Firer(InputAction.CallbackContext context)
     {
-        if(context.action.phase == InputActionPhase.Started)
+        Ray storageBoxInteraction = cameraPlayer.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if(Physics.Raycast(storageBoxInteraction, out RaycastHit storageBoxHit, 10))
         {
-            fired = true;
-            
+            Debug.Log("yo");
         }
-        if(context.action.phase == InputActionPhase.Canceled)
-        {
-            fired = false;
-        }
+
     }
 
 
     private void playerMovement()
     {
-        shotDirection = Mouse.current.position.ReadValue();
-        shotLine = cameraPlayer.ScreenPointToRay(shotDirection);
-        if(Physics.Raycast(shotLine, out RaycastHit hit))
-        {
-            mousePos3D = hit.point;
-        }
-        mousePos3D.y = 0;
-        playerPos.y = 0;
-        shotDirection = (mousePos3D - playerPos).normalized;
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
+
         cDir = Vector2.SmoothDamp(cDir, dir, ref sDir, smoothSpeed);
         move = new Vector3(cDir.x, 0, cDir.y);
         move = movePlayerfromCam(move);
         controller.Move(move * Time.deltaTime * playerSpeed);
-        if(isDragging)
+
+        if (move != Vector3.zero)
         {
-            move = Vector3.zero;
-            controller.Move(Vector3.zero);
+            gameObject.transform.forward = move;
         }
-        gameObject.transform.forward = shotDirection;
-        ani.SetFloat("speed", controller.velocity.z);
-        ani.SetFloat("lrspeed", controller.velocity.x);
+
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
@@ -223,6 +158,13 @@ public class playerController : MonoBehaviour
 
     private void aimLineFunc()
     {
+        mousePos3D = Mouse.current.position.ReadValue();
+        rayLine = cameraPlayer.ScreenPointToRay(mousePos3D);
+        if(Physics.Raycast(rayLine, out RaycastHit hit))
+        {
+                mousePos3D = hit.point;
+        }
+        
         //lineDistance = Vector3.Distance(playerPos, mousePos3D);
        
         aimLine.SetPosition(0, new Vector3(playerPos.x, 1, playerPos.z));
@@ -245,110 +187,8 @@ public class playerController : MonoBehaviour
         camRelMov = fmov + rmov;
         return camRelMov;
     }
-
-    public void Shoot()
-    {
-        if(!inventoryUI.activeSelf)
-        {
-            switch (playerInventory.playerWeapon)
-        {
-            case 1:
-                sounds.PlayPistol();
-                shotDirection = Mouse.current.position.ReadValue();
-                shotLine = cameraPlayer.ScreenPointToRay(shotDirection);
-                if(Physics.Raycast(shotLine, out RaycastHit hit))
-                {
-                    mousePos3D = hit.point;
-                }
-                shotDirection = (mousePos3D - playerPos).normalized;
-                shotQ = Quaternion.LookRotation(new Vector3(shotDirection.x, 0, shotDirection.z));
-                tempB = Instantiate(bullet, playerCenter.transform.position, shotQ);
-                tempR = tempB.GetComponent<Rigidbody>();
-                tempR.AddForce(tempR.transform.forward * 4000f);
-                Destroy(tempB, .8f);
-                break;
-            case 2:
-                sounds.PlayShotgun();
-                shotDirection = Mouse.current.position.ReadValue();
-                shotLine = cameraPlayer.ScreenPointToRay(shotDirection);
-                if(Physics.Raycast(shotLine, out RaycastHit hit1))
-                {
-                    mousePos3D = hit1.point;
-                }
-                shotDirection = (mousePos3D - playerPos).normalized;
-                shotQ = Quaternion.LookRotation(new Vector3(shotDirection.x, 0, shotDirection.z));
-                shotGunQ2 = shotQ * Quaternion.Euler(Vector3.up * 5);
-                shotGunQ3 = shotQ * Quaternion.Euler(Vector3.up * 10);
-                shotGunQ4 = shotQ * Quaternion.Euler(Vector3.up * -10);
-                shotGunQ5 = shotQ * Quaternion.Euler(Vector3.up * -5);
-                tempSGB = Instantiate(bullet, playerCenter.transform.position, shotQ);
-                tempSGB2 = Instantiate(bullet, playerCenter.transform.position, shotGunQ2);
-                tempSGB3 = Instantiate(bullet, playerCenter.transform.position, shotGunQ3);
-                tempSGB4 = Instantiate(bullet, playerCenter.transform.position, shotGunQ4);
-                tempSGB5 = Instantiate(bullet, playerCenter.transform.position, shotGunQ5);
-                tempRSG = tempSGB.GetComponent<Rigidbody>();
-                tempRSG2 = tempSGB2.GetComponent<Rigidbody>();
-                tempRSG3 = tempSGB3.GetComponent<Rigidbody>();
-                tempRSG4 = tempSGB4.GetComponent<Rigidbody>();
-                tempRSG5 = tempSGB5.GetComponent<Rigidbody>();
-                tempRSG.AddForce(tempRSG.transform.forward * 4000f);
-                tempRSG2.AddForce(tempRSG2.transform.forward * 4000f);
-                tempRSG3.AddForce(tempRSG3.transform.forward * 4000f);
-                tempRSG4.AddForce(tempRSG4.transform.forward * 4000f);
-                tempRSG5.AddForce(tempRSG5.transform.forward * 4000f);
-                Destroy(tempSGB, .8f);
-                Destroy(tempSGB2, .8f);
-                Destroy(tempSGB3, .8f);
-                Destroy(tempSGB4, .8f);
-                Destroy(tempSGB5, .8f);
-                Debug.Log("Yo");
-                break;
-            case 3:
-                sounds.PlayAssault();
-                shotDirection = Mouse.current.position.ReadValue();
-                shotLine = cameraPlayer.ScreenPointToRay(shotDirection);
-                if(Physics.Raycast(shotLine, out RaycastHit hit3))
-                {
-                    mousePos3D = hit3.point;
-                }
-                shotDirection = (mousePos3D - playerPos).normalized;
-                shotQ = Quaternion.LookRotation(new Vector3(shotDirection.x, 0, shotDirection.z));
-                tempB = Instantiate(bullet, playerCenter.transform.position, shotQ);
-                tempR = tempB.GetComponent<Rigidbody>();
-                tempR.AddForce(tempR.transform.forward * 4000f);
-                Destroy(tempB, .8f);
-                break;
-        }
-        }
-        
-    }
-    private void sHealth(int h)
-    {
-        s.value = h;
-    }
 }
 
 /*
-groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
-        
-        cDir = Vector2.SmoothDamp(cDir, dir, ref sDir, smoothSpeed);
-        move = new Vector3(cDir.x, 0, cDir.y);
-        move = movePlayerfromCam(move);
-        controller.Move(move * Time.deltaTime * playerSpeed);
-        if(isDragging)
-        {
-            move = Vector3.zero;
-            controller.Move(Vector3.zero);
-        }
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
 
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
 */

@@ -49,24 +49,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Inventory",
-                    "type": "Button",
-                    "id": "eef70f5a-c640-41dd-bde7-9f6907027b7a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DeathTest",
-                    "type": "Button",
-                    "id": "909e8d03-0875-4919-90e0-2af902aa7ec7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -309,28 +291,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Drag Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "60a06796-3741-4516-adf5-3a04e26224e9",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d681c010-c6a4-4958-a469-79788591feaa",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DeathTest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
