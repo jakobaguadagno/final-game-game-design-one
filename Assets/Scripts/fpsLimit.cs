@@ -3,7 +3,7 @@
 public class fpsLimit : MonoBehaviour
 {
     [SerializeField] public int vSyncCountNumber = 0;
-    [SerializeField] public int frameRateNumber = 45;
+    [SerializeField] public int frameRateNumber = 60;
 
     void Awake()
     {
