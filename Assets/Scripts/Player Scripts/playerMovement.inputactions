@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Drag Camera",
-                    "type": "Button",
-                    "id": "b2a11820-c540-47ea-849d-3348f559492c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Camera Zoom",
                     "type": "PassThrough",
                     "id": "a757a067-c5bb-4767-afdb-17a46bd82f39",
@@ -289,17 +280,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Camera Zoom",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7241bf71-2d5d-4173-85ab-582943c0c0e8",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Drag Camera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
