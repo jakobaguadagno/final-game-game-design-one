@@ -13,12 +13,13 @@ public class shopUI : MonoBehaviour
 
     public Text money;
     public Text health;
-    public Text weaponCost;
+    public Image weaponCost;
+    public Sprite cost100, cost200, noUp;
 
     void Start()
     {
         inv = playerInventory.instance;
-        Debug.Log(inv.pItems.Count);
+        weaponCost.sprite = cost100;
         UpdateUI();
     }
 
@@ -29,13 +30,13 @@ public class shopUI : MonoBehaviour
         switch(playerInventory.playerWeapon)
         {
             case 1:
-                weaponCost.text = "Upgrade Weapon\nCost: 200";
+                weaponCost.sprite = cost100;
                 break;
             case 2:
-                weaponCost.text = "Upgrade Weapon\nCost: 300";
+                weaponCost.sprite = cost200;
                 break;
             case 3:
-                weaponCost.text = "No More Upgrades";
+                weaponCost.sprite = noUp;
                 break;
         }
     }
@@ -66,9 +67,9 @@ public class shopUI : MonoBehaviour
         switch(playerInventory.playerWeapon)
         {
             case 1:
-                if (playerInventory.playerMoney >= 100)
+                if (playerInventory.playerMoney >= 200)
                 {
-                    playerInventory.playerMoney -= 100;
+                    playerInventory.playerMoney -= 200;
                     playerInventory.playerWeapon = 2;
                     
                     Debug.Log("New Weapon: " + playerInventory.playerWeapon);
@@ -79,9 +80,9 @@ public class shopUI : MonoBehaviour
                 }
                 break;
             case 2:
-                if (playerInventory.playerMoney >= 200)
+                if (playerInventory.playerMoney >= 300)
                 {
-                    playerInventory.playerMoney -= 200;
+                    playerInventory.playerMoney -= 300;
                     playerInventory.playerWeapon = 3;
                     
                     Debug.Log("New Weapon: " + playerInventory.playerWeapon);

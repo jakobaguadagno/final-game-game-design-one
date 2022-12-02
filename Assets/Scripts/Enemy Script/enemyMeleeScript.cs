@@ -21,7 +21,7 @@ public class enemyMeleeScript : MonoBehaviour
     private float attackC;
     private bool inRange;
 
-    private int health = 100;
+    private int health = 30;
     private bool dead = false;
     private bool animationStart = false;
     public GameObject inventoryUI;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class menuUI : MonoBehaviour
 {
@@ -13,9 +14,20 @@ public class menuUI : MonoBehaviour
     public GameObject Win;
     public GameObject Lose;
     public GameObject itemParentBox;
+    public Button Level1, Level2, Level3;
 
     void Start()
     {
+        Level2.enabled = false;
+        Level3.enabled = false;
+        if(playerInventory.level1Done)
+        {
+            Level2.enabled = true;
+        }
+        if(playerInventory.level2Done)
+        {
+            Level3.enabled = true;
+        }
         if(!(playerInventory.dead))
         {
             MainMenu.SetActive(true);
@@ -111,5 +123,10 @@ public class menuUI : MonoBehaviour
     {
         HideUI(MainMenu, Directions, Credits, Settings, Overworld, Win, Lose);
         Shop.SetActive(true);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

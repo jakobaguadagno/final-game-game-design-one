@@ -16,6 +16,6 @@ MonoBehaviour:
   itemType: Tradable
   itemDescription: High valued tradable.
   isUsableItem: 0
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 36b7404c5314ef44c8318e5d95be9ae9, type: 3}
   amountOfItem: 1
   sellValue: 30

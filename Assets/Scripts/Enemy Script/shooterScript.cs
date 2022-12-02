@@ -29,7 +29,7 @@ public class shooterScript : MonoBehaviour
     private float attackC;
     private bool inRange;
 
-    private int health = 100;
+    private int health = 30;
     private bool dead = false;
     private bool animationStart = false;
     public GameObject inventoryUI;
@@ -100,7 +100,7 @@ public class shooterScript : MonoBehaviour
             StopCoroutine(attackCo);
             if(!animationStart)
             {
-                animator.SetTrigger("Death");
+                animator.SetTrigger("Alive");
                 animationStart = true;
             }
             Destroy(enemy);

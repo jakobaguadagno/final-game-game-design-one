@@ -16,6 +16,6 @@ MonoBehaviour:
   itemType: Tradable
   itemDescription: Can be traded for currency.
   isUsableItem: 0
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 139cb880dede1d34ab6fde9d60d6711a, type: 3}
   amountOfItem: 1
   sellValue: 10

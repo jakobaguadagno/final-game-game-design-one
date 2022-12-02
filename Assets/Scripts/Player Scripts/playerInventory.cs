@@ -13,11 +13,12 @@ public class playerInventory : MonoBehaviour
     public static int playerDamage;
     public static int playerWeapon;
     public static float audioVolume;
-    public static bool level1Done = false;
-    public static bool level2Done = false;
-    public static bool level3Done = false;
-    public static bool levelComplete = false;
-    public static bool dead = false;
+    public static bool keepInventory;
+    public static bool level1Done;
+    public static bool level2Done;
+    public static bool level3Done;
+    public static bool levelComplete;
+    public static bool dead;
 
     void Awake()
     {
@@ -27,15 +28,20 @@ public class playerInventory : MonoBehaviour
         } 
         else
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
             playerHealth = 100;
-            playerMoney = 10000;
+            playerMoney = 0;
             playerDamage = 10;
             audioVolume = .25f;
             playerLevel = 1;
             playerWeapon = 1;
-            Debug.Log("Health: " + playerHealth + " / Money: " + playerMoney);
+            keepInventory = true;
+            level1Done = false;
+            level2Done = false;
+            level3Done = false;
+            levelComplete = false;
+            dead = false;
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
@@ -55,6 +61,15 @@ public class playerInventory : MonoBehaviour
         {
             dead = true;
             playerHealth=100;
+        }
+        if(playerInventory.dead && !playerInventory.keepInventory)
+        {
+            Debug.Log("Items Before Death: " +pItems.Count);
+            while (pItems.Count>0)
+            {
+                pItems.RemoveAt(pItems.Count-1);
+            }
+            Debug.Log("Items After Death: " +pItems.Count);
         }
         if(dead&&!(SceneManager.GetActiveScene().name=="MenuScene"))
         {

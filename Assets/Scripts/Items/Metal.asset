@@ -16,6 +16,6 @@ MonoBehaviour:
   itemType: Tradable
   itemDescription: Mid-ranged price item.
   isUsableItem: 0
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: c97e4efad23299d458c11aba0a9c73ac, type: 3}
   amountOfItem: 1
   sellValue: 20

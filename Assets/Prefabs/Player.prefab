@@ -1834,7 +1834,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1
   m_Radius: 1
-  m_SlopeLimit: 45
+  m_SlopeLimit: 0
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
@@ -2193,10 +2193,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: eef70f5a-c640-41dd-bde7-9f6907027b7a
     m_ActionName: Player/Inventory[/Keyboard/tab]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 909e8d03-0875-4919-90e0-2af902aa7ec7
-    m_ActionName: Player/DeathTest[/Keyboard/p]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -7128,7 +7124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8055523579112314748}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1048, y: 1.577, z: 0.9674}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2153806246506361810}

@@ -763,7 +763,7 @@ Animator:
   m_GameObject: {fileID: 1497734632544580759}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2410d843a840acf4286f2123bb83c274, type: 2}
+  m_Controller: {fileID: 9100000, guid: f679882f74a6d684c8e74da6e6b143eb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -938,6 +938,8 @@ MonoBehaviour:
   pistol: {fileID: 8820972663329263983}
   enemyBullet: {fileID: 7193999843040123972, guid: 80b26cbc238b6c74e92b2e201b981981,
     type: 3}
+  sounds: {fileID: 0}
+  inventoryUI: {fileID: 0}
   s: {fileID: 4652301348472821942}
 --- !u!1 &1535245182256961194
 GameObject:
@@ -2584,9 +2586,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 30
   m_WholeNumbers: 1
-  m_Value: 100
+  m_Value: 30
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class inventorySlot : MonoBehaviour
 {
     itemScriptCreator item;
 
-    public TextMeshProUGUI itemName;
+    public Image setImage;
 
     public void AddItem(itemScriptCreator newItem)
     {
         item = newItem;
-        itemName.SetText(item.itemName);
+        setImage.sprite = item.itemIcon;
     }
 
     public void RemoveItem()
     {
-        Debug.Log("Removing... " + item);
         if(SceneManager.GetActiveScene().name == "MenuScene")
         {
             if(item.itemName == "Wood")
